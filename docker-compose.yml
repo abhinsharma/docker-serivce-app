@@ -1,7 +1,20 @@
 version: '3.1'
 
 services:
-
+  app:
+    image: abhin_sh/service-app
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+    links:
+      - db:db
+    environment:
+      - DATABASE_HOST=db
+    tty: true
+    #command: ["./wait-for-it.sh", "db:3306"]
+    
   db:
     image: mysql
     command: --default-authentication-plugin=mysql_native_password
@@ -9,8 +22,4 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
 
-  app:
-    image: abhin_sh/service-app
-    restart: always
-    ports:
-      - 8080:8080
+  
